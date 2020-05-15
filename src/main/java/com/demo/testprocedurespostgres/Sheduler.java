@@ -16,9 +16,6 @@ public class Sheduler {
 	public void createUser(){
 		//System.out.println(10);
 		//empRepo.insert();
-		long start = System.currentTimeMillis();
-		System.out.println("Summary Salary = " + empRepo.sumSalary());
-		long finish = System.currentTimeMillis();
-		System.out.println((finish-start)/1000/60); // get time spent on work in minutes
+		System.out.println(empRepo.sumSalary());
 	}
 }
