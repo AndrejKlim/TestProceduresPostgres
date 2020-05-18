@@ -1,9 +1,12 @@
 package com.demo.testprocedurespostgres;
 
+import com.demo.testprocedurespostgres.repo.EmpRepo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class Sheduler {
 
 	private final EmpRepo empRepo;
@@ -12,10 +15,16 @@ public class Sheduler {
 		this.empRepo = empRepo;
 	}
 
-	@Scheduled(fixedRate = 10000)
+	//@Async
+	//@Scheduled(fixedRate = 200)
 	public void createUser(){
 		//System.out.println(10);
 		//empRepo.insert();
-		System.out.println(empRepo.sumSalary());
+//		long start  = System.currentTimeMillis();
+//		log.info("Sum = {}",empRepo.sumSalary());
+//		long fin = System.currentTimeMillis();
+//		log.info("Time to process procedure - {} ms, in thread {}",
+//				(fin-start),
+//				Thread.currentThread().getName());
 	}
 }

@@ -3,6 +3,6 @@ language plpgsql
 as
     $$
     begin
-        select sum(salary) into sum_out from "testTaskDB".public.emp;
+        select sum(salary)  into sum_out from "testTaskDB".public.emp;
     end;
     $$
