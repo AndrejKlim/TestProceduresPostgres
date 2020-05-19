@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.query.Procedure;
 
 public interface SalePointRepo extends JpaRepository<SalePoint, Long> {
 
-	@Procedure("createPrize")
-	void createPrize(long salePointId, int prize, int operationTime);
+	@Procedure("calcPrize")
+	void calculatePrize();
 }
