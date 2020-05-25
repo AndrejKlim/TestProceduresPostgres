@@ -1,7 +1,9 @@
 package com.demo.testprocedurespostgres;
 
 import com.demo.testprocedurespostgres.repo.EmpRepo;
+import com.demo.testprocedurespostgres.repo.SalePointRepo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -9,22 +11,20 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class Sheduler {
 
-	private final EmpRepo empRepo;
-
-	public Sheduler(EmpRepo empRepo) {
-		this.empRepo = empRepo;
-	}
+	@Autowired
+	SalePointRepo salePointRepo;
 
 	//@Async
-	//@Scheduled(fixedRate = 200)
+//	@Scheduled(fixedRate = 10000)
 	public void createUser(){
 		//System.out.println(10);
 		//empRepo.insert();
-//		long start  = System.currentTimeMillis();
-//		log.info("Sum = {}",empRepo.sumSalary());
-//		long fin = System.currentTimeMillis();
-//		log.info("Time to process procedure - {} ms, in thread {}",
-//				(fin-start),
-//				Thread.currentThread().getName());
+		long start  = System.currentTimeMillis();
+		log.info("start calculating");
+		salePointRepo.proxyCalcPrize();
+		long fin = System.currentTimeMillis();
+		log.info("Time to process procedure - {} ms, {} s, {} min in thread {}",
+				(fin-start), (fin-start)/1000, (fin-start)/1000/60,
+				Thread.currentThread().getName());
 	}
 }
