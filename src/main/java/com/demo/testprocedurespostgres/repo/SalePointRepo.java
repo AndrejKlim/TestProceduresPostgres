@@ -11,4 +11,7 @@ public interface SalePointRepo extends JpaRepository<SalePoint, Long> {
 
 	@Procedure("proxyCalcPrize")
 	int proxyCalcPrize();
+
+	@Procedure("proxyAlterCalcPrize")
+	void proxyAlterCalcPrize();
 }

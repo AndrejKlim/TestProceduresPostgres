@@ -8,6 +8,8 @@ import com.demo.testprocedurespostgres.repo.SalePointRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -23,6 +25,8 @@ public class Runner implements CommandLineRunner {
 	SalePointRepo salePointRepo;
 	@Autowired
 	CalcResultRepo calcResultRepo;
+	@Autowired
+	JdbcTemplate jdbcTemplate;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -61,9 +65,11 @@ public class Runner implements CommandLineRunner {
 			}
 			//salePointRepo.saveAll(list);
 			log.info("Now {} records int DB", cursor);
+			log.info("Truncating prize db");
+			jdbcTemplate.execute("truncate \"testTaskDB\".public.sale_point_prize;");
 			log.info("Starting processing procedure");
 			long start = System.currentTimeMillis();
-			salePointRepo.proxyCalcPrize();
+			salePointRepo.proxyAlterCalcPrize();
 			long fin = System.currentTimeMillis();
 			long operationTime = fin-start;
 			log.info("Time to process procedure - {} ms, {} s, {} min in thread {}",
