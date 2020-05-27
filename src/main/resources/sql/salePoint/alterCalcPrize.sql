@@ -1,19 +1,41 @@
-create or replace function alterCalcPrize() returns void
+create or replace function alterCalcPrize(IN recordQuarter_in int) returns void
 language plpgsql
 as
-    $$
-        declare sumPrize int;
+$$
+declare sumPrize int;
 
-        declare
-            sim1000 int := 100;
-            sim3000 int := 500;
-            modem500 int := 100;
-            modem1000 int := 500;
-            tv300 int := 100;
-            tv600 int :=500;
+    declare
+        sim1000 int := 100;
+        sim3000 int := 500;
+        modem500 int := 100;
+        modem1000 int := 500;
+        tv300 int := 100;
+        tv600 int :=500;
 
+    declare rowCount int;
+            quarterOfRecords int;
+            individualOffset int;
+            individualLimit int;
 
     begin
+    select count(*) from "testTaskDB".public.sale_point into rowCount; --вычисляет количество записей на 5кк 1.1-1.4 секунды
+    raise notice 'Value of rowcount: %', rowCount;
+    select rowCount/4 into quarterOfRecords; -- четверть всех
+    select case
+               when recordQuarter_in = 1 then 0
+               when recordQuarter_in = 2 then quarterOfRecords
+               when recordQuarter_in = 3 then quarterOfRecords * 2
+               when recordQuarter_in = 4 then quarterOfRecords * 3
+               end into individualOffset;
+    raise notice 'Value of individualOffset: %', individualOffset;
+    select case
+               when recordQuarter_in = 1 then quarterOfRecords
+               when recordQuarter_in = 2 then quarterOfRecords
+               when recordQuarter_in = 3 then quarterOfRecords
+               when recordQuarter_in = 4 then rowCount - (quarterOfRecords * 3)
+               end into individualLimit;
+    raise notice 'Value of individualLimit: %', individualLimit;
+
         insert into "testTaskDB".public.sale_point_prize(sale_point_id, prize)
         select id, case --set prize according to sales
         when sold_sim >= 3000 and sold_modem >= 1000 and sold_tv_adapters >= 600
@@ -81,7 +103,8 @@ as
         then modem500 + tv600
         --all with 1 max 1 mid and 1 low checked
         else 4444 end
-        from "testTaskDB".public.sale_point ;
+        from "testTaskDB".public.sale_point offset individualOffset limit individualLimit
+        on conflict do nothing ;
 
     end;
     $$
