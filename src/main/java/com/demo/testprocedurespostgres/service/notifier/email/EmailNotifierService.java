@@ -1,26 +1,24 @@
-package com.demo.testprocedurespostgres.service.notifier;
+package com.demo.testprocedurespostgres.service.notifier.email;
 
+import com.demo.testprocedurespostgres.service.notifier.Notifier;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EmailNotifierService implements Notifier{
+@Slf4j
+public class EmailNotifierService implements Notifier {
 
 	@Autowired
 	JavaMailSender javaMailSender;
 
-	String subject;
-	String mailTo;
+	String subject = "Processing Procedure";
+	String mailTo = "tydysch@mail.ru";
 
 	@Override
-	public boolean sendNotice(String notice, String ... args) {
-		if (args.length != 0){
-			subject = args[0];
-			mailTo = args[1];
-		}
-
+	public boolean sendNotice(String notice) {
 		SimpleMailMessage message = new SimpleMailMessage();
 
 		if (canSend()) {
@@ -28,6 +26,7 @@ public class EmailNotifierService implements Notifier{
 			message.setSubject(subject);
 			message.setText(notice);
 			javaMailSender.send(message);
+			log.info("Notice sending successfully, notice : {}", notice);
 			subject = null;
 			mailTo = null;
 			return true;
