@@ -18,9 +18,8 @@ public class ActiveMQNotifierService implements Notifier {
 	private Destination noticeQueue;
 
 	@Override
-	public boolean sendNotice(String notice) {
+	public void sendNotice(String notice) {
 		jmsTemplate.send(noticeQueue, session -> session.createTextMessage(notice));
 		log.info("Notice sending successfully, notice : {}", notice);
-		return true;
 	}
 }

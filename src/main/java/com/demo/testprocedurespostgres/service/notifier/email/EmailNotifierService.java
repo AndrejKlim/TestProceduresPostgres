@@ -18,32 +18,12 @@ public class EmailNotifierService implements Notifier {
 	String mailTo = "tydysch@mail.ru";
 
 	@Override
-	public boolean sendNotice(String notice) {
+	public void sendNotice(String notice) {
 		SimpleMailMessage message = new SimpleMailMessage();
-
-		if (canSend()) {
 			message.setTo(mailTo);
 			message.setSubject(subject);
 			message.setText(notice);
 			javaMailSender.send(message);
 			log.info("Notice sending successfully, notice : {}", notice);
-			subject = null;
-			mailTo = null;
-			return true;
-		}else{
-			return false;
-		}
-	}
-
-	boolean canSend(){
-		return mailTo != null && subject != null;
-	}
-
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
-
-	public void setMailTo(String mailTo) {
-		this.mailTo = mailTo;
 	}
 }
