@@ -8,10 +8,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 @EnableAsync
-public class TestprocedurespostgresApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TestprocedurespostgresApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
 }

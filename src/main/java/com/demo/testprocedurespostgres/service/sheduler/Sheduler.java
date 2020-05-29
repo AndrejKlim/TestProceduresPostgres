@@ -1,4 +1,4 @@
-package com.demo.testprocedurespostgres;
+package com.demo.testprocedurespostgres.service.sheduler;
 
 import com.demo.testprocedurespostgres.repo.EmpRepo;
 import com.demo.testprocedurespostgres.repo.SalePointRepo;
