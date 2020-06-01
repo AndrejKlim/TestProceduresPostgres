@@ -23,6 +23,9 @@ public class MainService implements CommandLineRunner {
 	@Qualifier("emailNotifierService")
 	@Autowired
 	private Notifier emailNotifier;
+	@Qualifier("telegramNotifierService")
+	@Autowired
+	private Notifier telegramNotifier;
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -36,6 +39,7 @@ public class MainService implements CommandLineRunner {
 
 		noticePublisher.subscribe(emailNotifier);
 		noticePublisher.subscribe(activeMQNotifier);
+		noticePublisher.subscribe(telegramNotifier);
 
 		noticePublisher.notifySubscribers("Procedure start processing db");
 		log.info("Truncating prize db");
